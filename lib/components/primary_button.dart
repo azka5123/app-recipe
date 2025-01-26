@@ -12,11 +12,12 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
+      height: 56,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryColor,
-          minimumSize: const Size.fromHeight(50)
+          // minimumSize: const Size.fromHeight(50)
         ),
         child: Text(
           text,

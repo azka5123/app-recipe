@@ -3,14 +3,21 @@ import 'package:flutter/material.dart';
 import '../components/input_text.dart';
 import '../theme/app_typography.dart';
 import '../components/primary_button.dart';
+import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isVisible = false;
+
+  @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
-    // double horizontalPadding = screenWidth * 0.3;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -31,19 +38,32 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              InputText(label: 'Email', hint: 'Enter your email'),
+              InputText(
+                hint: 'Enter your email',
+                prefixIcon:Icon(Icons.email_outlined)
+                ),
               const SizedBox(height: 20),
               InputText(
-                label: 'Password',
                 hint: 'Enter your password',
-                isPassword: true,
+                isPassword: _isVisible,
+                prefixIcon: Icon(Icons.lock_outlined),
+                suffixIcon: IconButton(
+                  icon: Icon(_isVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                  onPressed: () {
+                    setState(() {
+                      _isVisible = !_isVisible;
+                    });
+                  },
+                ),
+                controller: _passwordController,
+                
               ),
               const SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    //TODO: Frogot Password
+                    context.go('/forgot-password');
                   },
                   child: Text(
                     'Forgot Password?',
@@ -76,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: 9, vertical: 9),
+                        horizontal: 9, vertical: 13),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
@@ -102,7 +122,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    //TODO: Register
+                    context.go('/signup');
                   },
                   child: Text(
                     'Sign Up',
